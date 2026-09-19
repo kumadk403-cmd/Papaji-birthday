@@ -27,10 +27,10 @@ body::before{content:"";position:absolute;inset:0;background:linear-gradient(rgb
 .pass-row{display:flex;justify-content:space-between;margin-bottom:12px;text-align:left;gap:15px}.pass-label{font-size:.7rem;color:#9ca3af;text-transform:uppercase;letter-spacing:1px}.pass-val{font-size:1.1rem;font-weight:800;color:#fff}
 .map-container{width:100%;height:120px;position:relative;display:flex;align-items:center;justify-content:space-between;margin:20px 0;padding:0 20px}.map-line{position:absolute;top:50%;left:40px;right:40px;height:2px;border-top:2px dashed #00e5ff;z-index:1}.airplane{position:absolute;top:calc(50% - 16px);left:40px;font-size:24px;z-index:2;transition:left 2.5s cubic-bezier(.4,0,.2,1)}.city-dot{z-index:2;background:#050b14;border:2px solid #00e5ff;border-radius:50%;padding:8px 12px;font-weight:800;font-size:.9rem}
 .inventory-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin:15px 0}.inv-card{background:rgba(15,23,42,.8);border:1px solid rgba(0,229,255,.2);border-radius:10px;padding:12px;text-align:left}.inv-card.full-width{grid-column:span 2}.inv-title{font-size:.75rem;color:#9ca3af}.inv-value{font-size:1.2rem;font-weight:900;color:#00e5ff;margin-top:4px}.progress-bar{width:100%;height:6px;background:rgba(255,255,255,.1);border-radius:3px;margin-top:6px;overflow:hidden}.progress-fill{height:100%;background:#00e5ff;width:100%;box-shadow:0 0 8px #00e5ff}
-.photo-frame{width:100%;height:38vh;border-radius:12px;overflow:hidden;border:2px solid rgba(0,229,255,.3);box-shadow:0 8px 24px rgba(0,0,0,.6);margin-bottom:15px;background:#0d1b2a;display:flex;align-items:center;justify-content:center}.photo-frame img{width:100%;height:100%;object-fit:cover;display:block}.photo-placeholder{padding:40px 20px;color:#00e5ff;font-family:monospace;font-size:.9rem;text-align:center}
+.photo-frame{width:100%;height:38vh;border-radius:12px;overflow:hidden;border:2px solid rgba(0,229,255,.3);box-shadow:0 8px 24px rgba(0,0,0,.6);margin-bottom:15px;background:#0d1b2a;display:flex;align-items:center;justify-content:center;position:relative}.photo-frame img{width:100%;height:100%;object-fit:cover;display:block}.photo-placeholder{padding:20px;color:#00e5ff;font-family:monospace;font-size:.85rem;text-align:center}
 .countdown-number{font-size:7rem;font-weight:900;color:#00e5ff;text-shadow:0 0 30px rgba(0,229,255,.8);animation:pulse .8s infinite alternate}@keyframes pulse{from{transform:scale(.9);opacity:.7}to{transform:scale(1.1);opacity:1}}
 #scene-11{justify-content:flex-start;overflow-y:auto;overscroll-behavior:contain}#scene-11 .content-box{margin-top:10px;padding-bottom:20px}
-.fade-in{animation:fadeIn .5s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn .4s ease}@keyframes fadeIn{from{opacity:0;transform:scale(.98)}to{opacity:1;transform:scale(1)}}
 @media(max-height:650px){.scene{padding-top:20px;padding-bottom:20px}.title-huge{font-size:1.8rem}.sub-text{font-size:1rem}.photo-frame{height:32vh}.btn{padding:14px 20px}}
 @media(max-width:380px){.title-huge{font-size:1.85rem}.inventory-grid{gap:8px}.inv-card{padding:9px}.inv-value{font-size:1rem}.pass-val{font-size:.95rem}}
 </style>
@@ -38,8 +38,6 @@ body::before{content:"";position:absolute;inset:0;background:linear-gradient(rgb
 <body>
 
 <div class="music-ctrl" onclick="toggleAudio()"><span id="music-icon">🎵</span><span id="music-text">SOUND ON</span></div>
-
-<!-- Configured for your M4A audio file -->
 <audio id="bg-audio" src="Purity - Beautiful Piano Song_ Relaxing BGM _BigRicePiano(M4A_128K).m4a" loop preload="auto"></audio>
 
 <div class="scene active" id="scene-1">
@@ -110,7 +108,9 @@ body::before{content:"";position:absolute;inset:0;background:linear-gradient(rgb
 <div class="scene" id="scene-memories">
 <div class="content-box">
 <div class="tag" id="memory-file-num">FILE 001 // MEMORY</div>
-<div class="photo-frame" id="photo-frame"><img id="memory-img" src="" alt="Memory Photo" onerror="handleImageError(this)"></div>
+<div class="photo-frame" id="photo-frame">
+  <img id="memory-img" src="" alt="Memory Photo">
+</div>
 <div class="title-huge gold-text" id="memory-title" style="font-size:1.4rem">Caption Title</div>
 <div class="sub-text" id="memory-text" style="font-size:1rem">Caption detail line...</div>
 </div>
@@ -138,7 +138,7 @@ body::before{content:"";position:absolute;inset:0;background:linear-gradient(rgb
 <div class="title-huge red-text" style="font-size:1.7rem;margin:10px 0">HAPPY BIRTHDAY,<br>AMIT KUMAR! 🎉</div>
 <div class="sub-text" style="color:#e5e7eb;font-size:1rem">AAP CHAHE KITNI BHI DOOR HO,</div>
 <div class="title-huge gold-text" style="font-size:1.2rem;margin-bottom:10px">GHAR HAMESHA AAPKA HI RAHEGA. ❤️</div>
-<div class="photo-frame" style="height:32vh"><img src="11278.jpg" alt="Papa & Family" onerror="handleImageError(this)"></div>
+<div class="photo-frame" style="height:32vh"><img src="11278.jpg" alt="Papa & Family" onerror="handleImageError(this, '11278.jpg')"></div>
 <div class="title-huge red-text" style="font-size:1.8rem;margin-top:10px">LOVE YOU, PAPA. ❤️</div>
 <p class="sub-text" style="font-size:.85rem;color:#9ca3af;margin-top:5px">Made with love — from home.</p>
 </div>
@@ -186,7 +186,7 @@ function toggleAudio() {
       icon.innerText = "🎵";
       textEl.innerText = "SOUND ON";
       audioPlayed = true;
-    }).catch(() => alert("Make sure your M4A audio file is uploaded to the root of your repository!"));
+    }).catch(() => alert("Ensure your audio file is uploaded to the root of your GitHub repository."));
   } else {
     a.pause();
     icon.innerText = "🔇";
@@ -209,19 +209,15 @@ function startMemoryViewer() {
 }
 
 function loadMemory(index) {
-  const mem = memories[index],
-        num = String(index + 1).padStart(3, "0");
-  const img = document.getElementById("memory-img"),
-        frame = document.getElementById("photo-frame");
+  const mem = memories[index];
+  const num = String(index + 1).padStart(3, "0");
   
   document.getElementById("memory-file-num").innerText = `FILE ${num} // MEMORY`;
   document.getElementById("memory-title").innerText = mem.title;
   document.getElementById("memory-text").innerText = mem.text;
-  
-  img.style.display = "block";
-  frame.querySelector(".photo-placeholder")?.remove();
-  
-  img.src = mem.image;
+
+  const frame = document.getElementById("photo-frame");
+  frame.innerHTML = `<img id="memory-img" src="${mem.image}?v=${new Date().getTime()}" alt="${mem.title}" onerror="handleImageError(this, '${mem.image}')">`;
 
   document.getElementById("memory-btn").innerText = (index === memories.length - 1) ? "FINISH MEMORIES" : "NEXT MEMORY";
 
@@ -232,16 +228,9 @@ function loadMemory(index) {
   });
 }
 
-function handleImageError(img) {
-  img.style.display = "none";
+function handleImageError(img, fileName) {
   const frame = img.parentElement;
-  let p = frame.querySelector(".photo-placeholder");
-  if (!p) {
-    p = document.createElement("div");
-    p.className = "photo-placeholder";
-    frame.appendChild(p);
-  }
-  p.innerHTML = "📁 MEMORY IMAGE<br><br>IMAGE FILE NOT FOUND<br><br><small>Check the filename and case sensitivity (.jpg vs .JPG).</small>";
+  frame.innerHTML = `<div class="photo-placeholder">⚠️ MISSING FILE: <b>${fileName}</b><br><br>Check that this file name on GitHub is exact (case-sensitive: .jpg vs .JPG).</div>`;
 }
 
 function nextMemory() {
