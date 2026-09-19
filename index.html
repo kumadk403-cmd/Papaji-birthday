@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>MISSION DAD-001</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;user-select:none;-webkit-tap-highlight-color:transparent;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+html,body{width:100%;height:100%;overflow:hidden;background:#050b14;color:#fff;background-image:radial-gradient(circle at 50% 50%,#0d1b2a 0%,#02060c 100%)}
+body::before{content:"";position:absolute;inset:0;background:linear-gradient(rgba(0,210,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,210,255,.03) 1px,transparent 1px);background-size:30px 30px;pointer-events:none;z-index:1}
+.scene{position:absolute;inset:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;align-items:center;padding:30px 20px 40px;opacity:0;pointer-events:none;transition:opacity .5s ease,transform .5s ease;transform:scale(.96);z-index:2}
+.scene.active{opacity:1;pointer-events:auto;transform:scale(1)}
+.content-box{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;margin:auto 0}
+.tag{font-size:.85rem;letter-spacing:3px;text-transform:uppercase;font-weight:700;color:#00e5ff;margin-bottom:12px;text-shadow:0 0 8px rgba(0,229,255,.4)}
+.tag.red{color:#ff3366;text-shadow:0 0 8px rgba(255,51,102,.4)}
+.tag.gold{color:#ffd700;text-shadow:0 0 8px rgba(255,215,0,.4)}
+.title-huge{font-size:2.2rem;font-weight:900;line-height:1.15;text-transform:uppercase;letter-spacing:1px;color:#fff;margin-bottom:16px;text-shadow:0 2px 10px rgba(0,0,0,.8)}
+.title-huge span{display:block;color:#00e5ff}.title-huge .red-text{color:#ff3366}.title-huge .gold-text{color:#ffd700}
+.sub-text{font-size:1.25rem;font-weight:600;line-height:1.4;color:#d1d5db;margin-bottom:10px}
+.btn{width:100%;max-width:320px;padding:18px 24px;font-size:1.1rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#050b14;background:linear-gradient(135deg,#00e5ff,#0088ff);border:none;border-radius:12px;box-shadow:0 4px 20px rgba(0,229,255,.4);cursor:pointer;transition:transform .1s ease,box-shadow .1s ease;z-index:10}
+.btn:active{transform:scale(.96);box-shadow:0 2px 10px rgba(0,229,255,.2)}
+.btn-red{background:linear-gradient(135deg,#ff3366,#ff0044);color:#fff;box-shadow:0 4px 20px rgba(255,51,102,.4)}
+.btn-gold{background:linear-gradient(135deg,#ffd700,#ff9900);color:#050b14;box-shadow:0 4px 20px rgba(255,215,0,.4)}
+.music-ctrl{position:fixed;top:15px;right:15px;z-index:100;background:rgba(10,20,35,.85);border:1px solid rgba(0,229,255,.3);color:#00e5ff;padding:8px 14px;border-radius:20px;font-size:.8rem;font-weight:700;display:flex;align-items:center;gap:6px;backdrop-filter:blur(5px);cursor:pointer}
+.terminal-box{background:rgba(5,15,25,.85);border:1px solid rgba(0,229,255,.3);border-left:4px solid #00e5ff;border-radius:8px;padding:16px;width:100%;text-align:left;font-family:monospace;font-size:.85rem;color:#00e5ff;margin-bottom:20px;box-shadow:inset 0 0 15px rgba(0,0,0,.5)}
+.boarding-pass{background:linear-gradient(135deg,#0e1e38,#0a1526);border:2px dashed rgba(0,229,255,.4);border-radius:16px;padding:20px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+.pass-row{display:flex;justify-content:space-between;margin-bottom:12px;text-align:left;gap:15px}.pass-label{font-size:.7rem;color:#9ca3af;text-transform:uppercase;letter-spacing:1px}.pass-val{font-size:1.1rem;font-weight:800;color:#fff}
+.map-container{width:100%;height:120px;position:relative;display:flex;align-items:center;justify-content:space-between;margin:20px 0;padding:0 20px}.map-line{position:absolute;top:50%;left:40px;right:40px;height:2px;border-top:2px dashed #00e5ff;z-index:1}.airplane{position:absolute;top:calc(50% - 16px);left:40px;font-size:24px;z-index:2;transition:left 2.5s cubic-bezier(.4,0,.2,1)}.city-dot{z-index:2;background:#050b14;border:2px solid #00e5ff;border-radius:50%;padding:8px 12px;font-weight:800;font-size:.9rem}
+.inventory-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;margin:15px 0}.inv-card{background:rgba(15,23,42,.8);border:1px solid rgba(0,229,255,.2);border-radius:10px;padding:12px;text-align:left}.inv-card.full-width{grid-column:span 2}.inv-title{font-size:.75rem;color:#9ca3af}.inv-value{font-size:1.2rem;font-weight:900;color:#00e5ff;margin-top:4px}.progress-bar{width:100%;height:6px;background:rgba(255,255,255,.1);border-radius:3px;margin-top:6px;overflow:hidden}.progress-fill{height:100%;background:#00e5ff;width:100%;box-shadow:0 0 8px #00e5ff}
+.photo-frame{width:100%;height:38vh;border-radius:12px;overflow:hidden;border:2px solid rgba(0,229,255,.3);box-shadow:0 8px 24px rgba(0,0,0,.6);margin-bottom:15px;background:#0d1b2a;display:flex;align-items:center;justify-content:center}.photo-frame img{width:100%;height:100%;object-fit:cover;display:block}.photo-placeholder{padding:40px 20px;color:#00e5ff;font-family:monospace;font-size:.9rem;text-align:center}
+.countdown-number{font-size:7rem;font-weight:900;color:#00e5ff;text-shadow:0 0 30px rgba(0,229,255,.8);animation:pulse .8s infinite alternate}@keyframes pulse{from{transform:scale(.9);opacity:.7}to{transform:scale(1.1);opacity:1}}
+#scene-11{justify-content:flex-start;overflow-y:auto;overscroll-behavior:contain}#scene-11 .content-box{margin-top:10px;padding-bottom:20px}
+.fade-in{animation:fadeIn .5s ease}@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-height:650px){.scene{padding-top:20px;padding-bottom:20px}.title-huge{font-size:1.8rem}.sub-text{font-size:1rem}.photo-frame{height:32vh}.btn{padding:14px 20px}}
+@media(max-width:380px){.title-huge{font-size:1.85rem}.inventory-grid{gap:8px}.inv-card{padding:9px}.inv-value{font-size:1rem}.pass-val{font-size:.95rem}}
+</style>
+</head>
+<body>
+
+<div class="music-ctrl" onclick="toggleAudio()"><span id="music-icon">🎵</span><span id="music-text">SOUND ON</span></div>
+<audio id="bg-audio" src="Purity - Beautiful Piano Song_ Relaxing BGM _BigRicePiano(M4A_128K).m4a" loop preload="auto"></audio>
+
+<div class="scene active" id="scene-1">
+<div class="content-box">
+<div class="tag red">CLASSIFIED // FAMILY INTELLIGENCE</div>
+<div class="title-huge">MISSION<br><span class="red-text">DAD-001</span></div>
+<div class="terminal-box" style="text-align:center;margin-top:10px">AGENT: AMIT KUMAR</div>
+<p class="sub-text" style="margin-top:15px">Papa, aapke liye ek special mission create kiya gaya hai.</p>
+</div>
+<button class="btn btn-red" onclick="startMission()">START MISSION</button>
+</div>
+
+<div class="scene" id="scene-2">
+<div class="content-box">
+<div class="terminal-box">&gt; CONNECTION ESTABLISHED<br>&gt; LOCATION: SIERRA LEONE 🇸🇱<br>&gt; DESTINATION: HOME 🇮🇳<br>&gt; STATUS: FAMILY WAITING<br>&gt; PRIORITY: EXTREMELY IMPORTANT</div>
+<div class="title-huge" style="font-size:1.8rem">PAPA, AAP DUNIYA KE EK KONE MEIN HO.</div>
+<div class="title-huge gold-text" style="font-size:1.8rem">AUR HUM DOOSRE KONE MEIN.</div>
+</div>
+<button class="btn" onclick="nextScene(3)">CONTINUE</button>
+</div>
+
+<div class="scene" id="scene-3">
+<div class="content-box">
+<div class="tag">CONFIRMED TICKET</div>
+<div class="title-huge" style="margin-bottom:15px">✈️ FAMILY AIRLINES</div>
+<div class="boarding-pass">
+<div class="pass-row"><div><div class="pass-label">PASSENGER</div><div class="pass-val">AMIT KUMAR</div></div><div><div class="pass-label">FLIGHT</div><div class="pass-val" style="color:#00e5ff">FA-001</div></div></div>
+<div class="pass-row"><div><div class="pass-label">FROM</div><div class="pass-val">SIERRA LEONE 🇸🇱</div></div><div><div class="pass-label">TO</div><div class="pass-val">HOME ❤️</div></div></div>
+<div class="pass-row" style="margin-bottom:0"><div><div class="pass-label">GATE</div><div class="pass-val">FAMILY</div></div><div><div class="pass-label">SEAT</div><div class="pass-val" style="color:#ffd700">ALWAYS WITH US</div></div></div>
+</div></div>
+<button class="btn" onclick="nextScene(4);triggerFlightAnimation()">BOARD FLIGHT</button>
+</div>
+
+<div class="scene" id="scene-4">
+<div class="content-box">
+<div class="tag">LIVE TRACKING</div>
+<div class="map-container"><div class="city-dot">🇸🇱</div><div class="map-line"></div><div class="airplane" id="plane">✈️</div><div class="city-dot">🇮🇳</div></div>
+<div class="sub-text" style="text-transform:uppercase">DISTANCE: THOUSANDS OF KILOMETRES.</div>
+<div class="title-huge gold-text" style="margin-top:10px">CONNECTION: 0 KILOMETRES.</div>
+</div>
+<button class="btn" onclick="nextScene(5)">KEEP FLYING</button>
+</div>
+
+<div class="scene" id="scene-5">
+<div class="content-box">
+<div class="tag">PLAYER STATUS</div><div class="title-huge" style="font-size:1.8rem">🎮 DAD INVENTORY</div>
+<div class="sub-text" style="font-size:.9rem;color:#00e5ff;margin-bottom:10px">PLAYER PROFILE: AMIT KUMAR</div>
+<div class="inventory-grid">
+<div class="inv-card"><div class="inv-title">😂 DAD JOKES</div><div class="inv-value">999+</div><div class="progress-bar"><div class="progress-fill"></div></div></div>
+<div class="inv-card"><div class="inv-title">📸 MEMORIES</div><div class="inv-value" style="font-size:.95rem;line-height:1.8">LIMITED EDITION</div><div class="progress-bar"><div class="progress-fill" style="background:#ffd700"></div></div></div>
+<div class="inv-card"><div class="inv-title">❤️ FAMILY</div><div class="inv-value">∞ INFINITE</div><div class="progress-bar"><div class="progress-fill" style="background:#ff3366"></div></div></div>
+<div class="inv-card"><div class="inv-title">🧠 ADVICE</div><div class="inv-value">MAX LEVEL</div><div class="progress-bar"><div class="progress-fill"></div></div></div>
+<div class="inv-card full-width"><div class="inv-title">🏠 HOME LOCATION</div><div class="inv-value" style="color:#ffd700">ALWAYS UNLOCKED</div></div>
+</div></div>
+<button class="btn" onclick="nextScene(6)">NEXT LEVEL</button>
+</div>
+
+<div class="scene" id="scene-6">
+<div class="content-box"><div class="tag gold">INCOMING MESSAGE</div><div class="title-huge gold-text">EK BAAT...</div><div class="title-huge" style="font-size:1.6rem;margin-top:10px">AAP KAAM KE LIYE HUMSE DOOR HO.</div><div class="title-huge red-text" style="font-size:1.6rem;margin-top:10px">LEKIN HUMARI LIFE SE KABHI DOOR NAHI.</div><div class="sub-text" style="color:#fff;margin-top:15px">HOME STILL HAS A PIECE OF YOU. ❤️</div></div>
+<button class="btn btn-gold" onclick="nextScene(7)">NEXT</button>
+</div>
+
+<div class="scene" id="scene-7">
+<div class="content-box"><div class="tag">RESTRICTED ACCESS</div><div class="title-huge">📁 MEMORY FILES</div><div class="title-huge" style="font-size:1.5rem;color:#9ca3af;margin-top:10px">SIRF KUCH PHOTOS MILI HAIN...</div><div class="title-huge gold-text" style="font-size:1.5rem;margin-top:10px">PAR HAR PHOTO MEIN EK POORI KAHANI HAI.</div></div>
+<button class="btn" onclick="startMemoryViewer()">OPEN MEMORY FILES</button>
+</div>
+
+<div class="scene" id="scene-memories">
+<div class="content-box">
+<div class="tag" id="memory-file-num">FILE 001 // MEMORY</div>
+<div class="photo-frame" id="photo-frame"><img id="memory-img" src="" alt="Memory Photo" onerror="handleImageError(this)"></div>
+<div class="title-huge gold-text" id="memory-title" style="font-size:1.4rem">Caption Title</div>
+<div class="sub-text" id="memory-text" style="font-size:1rem">Caption detail line...</div>
+</div>
+<button class="btn" id="memory-btn" onclick="nextMemory()">NEXT MEMORY</button>
+</div>
+
+<div class="scene" id="scene-8">
+<div class="content-box"><div class="tag red">SECURITY CHECK</div><div class="title-huge" style="font-size:1.8rem">🔐 ONE LAST QUESTION</div><div class="title-huge gold-text" style="font-size:1.5rem;margin-top:20px">PAPA, AAPKO PATA HAI GHAR MEIN AAPKO SABSE ZYADA KAUN MISS KARTA HAI?</div></div>
+<button class="btn btn-red" onclick="answerSecurityQuestion(event)">HUM SAB ❤️</button>
+</div>
+
+<div class="scene" id="scene-9">
+<div class="content-box"><div class="tag" id="countdown-status">INITIATING ARRIVAL PROTOCOL</div><div class="countdown-number" id="countdown-num">3</div><div class="title-huge" id="countdown-sub" style="font-size:1.5rem;margin-top:20px">VERIFYING COORDINATES...</div></div>
+</div>
+
+<div class="scene" id="scene-10">
+<div class="content-box"><div class="tag red">FINAL TRANSMISSION</div><div class="title-huge" style="font-size:1.8rem">PLEASE DON'T SKIP THIS.</div><div class="title-huge gold-text" style="font-size:1.5rem;margin-top:15px">BECAUSE THIS PART IS ONLY FOR YOU, PAPA.</div><div class="sub-text" style="margin-top:20px;color:#fff">❤️ FROM HOME, WITH LOVE.</div></div>
+<button class="btn btn-gold" onclick="nextScene(11)">OPEN FINAL FILE</button>
+</div>
+
+<div class="scene" id="scene-11">
+<div class="content-box">
+<div class="tag gold">MISSION ACCOMPLISHED</div>
+<div class="title-huge" style="font-size:2rem;margin-bottom:5px">WELCOME<br><span class="gold-text">HOME, DAD.</span></div>
+<div class="title-huge red-text" style="font-size:1.7rem;margin:10px 0">HAPPY BIRTHDAY,<br>AMIT KUMAR! 🎉</div>
+<div class="sub-text" style="color:#e5e7eb;font-size:1rem">AAP CHAHE KITNI BHI DOOR HO,</div>
+<div class="title-huge gold-text" style="font-size:1.2rem;margin-bottom:10px">GHAR HAMESHA AAPKA HI RAHEGA. ❤️</div>
+<div class="photo-frame" style="height:32vh"><img src="11278.jpg" alt="Papa & Family" onerror="handleImageError(this)"></div>
+<div class="title-huge red-text" style="font-size:1.8rem;margin-top:10px">LOVE YOU, PAPA. ❤️</div>
+<p class="sub-text" style="font-size:.85rem;color:#9ca3af;margin-top:5px">Made with love — from home.</p>
+</div>
+</div>
+
+<script>
+const memories=[
+{image:"11241.jpg",title:"EK CHHOTI SI SHURUAT.",text:"Bachpan se lekar aaj tak, aap hamesha humare hero rahe ho."},
+{image:"11243.jpg",title:"DUNIYA KE KISI BHI KONE MEIN...",text:"Aapki smile hi humare ghar ki sabse badi roshni hai."},
+{image:"11249.jpg",title:"THE UNSTOPPABLE PAPA.",text:"Har mushkil ko aasan bana dena aapki superpower hai."},
+{image:"11251.jpg",title:"HUMARI POORI DUNIYA.",text:"Aapke saath bitaye huye har moment ki value alag hi hai."},
+{image:"11257.jpg",title:"FAMILY FIRST.",text:"Hum sabko ek saath rakhne ke liye thank you Papa."},
+{image:"11259.jpg",title:"MEMORIES THAT LAST FOREVER.",text:"Aapki baatein aur aapka pyaar hamesha humare saath hai."},
+{image:"11275.jpg",title:"TOGETHER IN EVERY STEP.",text:"Dooriyo se humara bond kabhi kam nahi ho sakta."},
+{image:"11276.jpg",title:"OUR GUIDING LIGHT.",text:"Aapka decision aur advice hamesha sahi raasta dikhate hain."},
+{image:"11277.jpg",title:"ALWAYS READY, ALWAYS STRONG.",text:"Aap par hume bohot proud hai."}
+];
+
+let currentMemoryIndex=0,audioPlayed=false,transitioning=false,countdownTimer=null;
+
+function nextScene(n){
+document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
+const sc=document.getElementById("scene-"+n);
+if(sc)sc.classList.add("active");
+}
+
+function startMission(){playAudio();nextScene(2)}
+function playAudio(){
+if(!audioPlayed){
+const a=document.getElementById("bg-audio");
+a.play().then(()=>{audioPlayed=true}).catch(()=>{});
+}}
+function toggleAudio(){
+const a=document.getElementById("bg-audio"),icon=document.getElementById("music-icon"),textEl=document.getElementById("music-text");
+if(a.paused){a.play().then(()=>{icon.innerText="🎵";textEl.innerText="SOUND ON";audioPlayed=true}).catch(()=>alert("Make sure your music file exists in the audio folder!"))}
+else{a.pause();icon.innerText="🔇";textEl.innerText="MUTED"}
+}
+function triggerFlightAnimation(){
+const plane=document.getElementById("plane");
+if(plane){plane.style.left="40px";requestAnimationFrame(()=>setTimeout(()=>plane.style.left="calc(100% - 70px)",150))}
+}
+function startMemoryViewer(){
+currentMemoryIndex=0;loadMemory(0);nextScene("memories");
+}
+function loadMemory(index){
+const mem=memories[index],num=String(index+1).padStart(3,"0");
+const img=document.getElementById("memory-img"),frame=document.getElementById("photo-frame");
+document.getElementById("memory-file-num").innerText=`FILE ${num} // MEMORY`;
+document.getElementById("memory-title").innerText=mem.title;
+document.getElementById("memory-text").innerText=mem.text;
+img.style.display="block";frame.querySelector(".photo-placeholder")?.remove();
+img.src=mem.image;
+document.getElementById("memory-btn").innerText=index===memories.length-1?"FINISH MEMORIES":"NEXT MEMORY";
+[frame,document.getElementById("memory-title"),document.getElementById("memory-text")].forEach(e=>{e.classList.remove("fade-in");void e.offsetWidth;e.classList.add("fade-in")});
+}
+function handleImageError(img){
+img.style.display="none";
+const frame=img.parentElement;
+let p=frame.querySelector(".photo-placeholder");
+if(!p){p=document.createElement("div");p.className="photo-placeholder";frame.appendChild(p)}
+p.innerHTML="📁 MEMORY IMAGE<br><br>IMAGE FILE NOT FOUND<br><br><small>Check the photos folder and filename.</small>";
+}
+function nextMemory(){
+if(transitioning)return;
+if(currentMemoryIndex<memories.length-1){currentMemoryIndex++;loadMemory(currentMemoryIndex)}
+else{nextScene(8)}
+}
+function answerSecurityQuestion(e){
+if(transitioning)return;transitioning=true;
+e.currentTarget.disabled=true;
+nextScene(9);
+let n=3;
+const num=document.getElementById("countdown-num"),status=document.getElementById("countdown-status"),sub=document.getElementById("countdown-sub");
+num.innerText=n;status.innerText="INITIATING ARRIVAL PROTOCOL";sub.innerText="VERIFYING COORDINATES...";
+countdownTimer=setInterval(()=>{
+n--;
+if(n>0){num.innerText=n;sub.innerText=n===2?"FAMILY CONNECTION CONFIRMED...":"FINAL CHECK..."}
+else{
+clearInterval(countdownTimer);
+num.innerText="❤️";status.innerText="ARRIVAL CONFIRMED";sub.innerText="WELCOME HOME, PAPA.";
+setTimeout(()=>{transitioning=false;nextScene(10)},1800);
+}},1000);
+}
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&audioPlayed){const a=document.getElementById("bg-audio");if(!a.paused) a.play().catch(()=>{})}});
+</script>
+</body>
+</html>
