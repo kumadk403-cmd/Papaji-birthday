@@ -38,6 +38,8 @@ body::before{content:"";position:absolute;inset:0;background:linear-gradient(rgb
 <body>
 
 <div class="music-ctrl" onclick="toggleAudio()"><span id="music-icon">🎵</span><span id="music-text">SOUND ON</span></div>
+
+<!-- Configured for your M4A audio file -->
 <audio id="bg-audio" src="Purity - Beautiful Piano Song_ Relaxing BGM _BigRicePiano(M4A_128K).m4a" loop preload="auto"></audio>
 
 <div class="scene active" id="scene-1">
@@ -143,84 +145,154 @@ body::before{content:"";position:absolute;inset:0;background:linear-gradient(rgb
 </div>
 
 <script>
-const memories=[
-{image:"11241.jpg",title:"EK CHHOTI SI SHURUAT.",text:"Bachpan se lekar aaj tak, aap hamesha humare hero rahe ho."},
-{image:"11243.jpg",title:"DUNIYA KE KISI BHI KONE MEIN...",text:"Aapki smile hi humare ghar ki sabse badi roshni hai."},
-{image:"11249.jpg",title:"THE UNSTOPPABLE PAPA.",text:"Har mushkil ko aasan bana dena aapki superpower hai."},
-{image:"11251.jpg",title:"HUMARI POORI DUNIYA.",text:"Aapke saath bitaye huye har moment ki value alag hi hai."},
-{image:"11257.jpg",title:"FAMILY FIRST.",text:"Hum sabko ek saath rakhne ke liye thank you Papa."},
-{image:"11259.jpg",title:"MEMORIES THAT LAST FOREVER.",text:"Aapki baatein aur aapka pyaar hamesha humare saath hai."},
-{image:"11275.jpg",title:"TOGETHER IN EVERY STEP.",text:"Dooriyo se humara bond kabhi kam nahi ho sakta."},
-{image:"11276.jpg",title:"OUR GUIDING LIGHT.",text:"Aapka decision aur advice hamesha sahi raasta dikhate hain."},
-{image:"11277.jpg",title:"ALWAYS READY, ALWAYS STRONG.",text:"Aap par hume bohot proud hai."}
+const memories = [
+  { image: "11241.jpg", title: "KONARK SUN TEMPLE 🏛️", text: "Exploring ancient heritage together as a family." },
+  { image: "11243.jpg", title: "SUN TEMPLE MEMORIES 🌅", text: "Posing in front of the iconic stone architecture." },
+  { image: "11251.jpg", title: "THE EARLY DAYS 👶", text: "Where the story began — precious baby memories with Papa." },
+  { image: "11249.jpg", title: "HOME & HEART ❤️", text: "Cherished moments and warmth at home." },
+  { image: "11259.jpg", title: "TOGETHER ALWAYS 💫", text: "A quick selfie capturing priceless smiles." },
+  { image: "11257.jpg", title: "THE SUN TEMPLE WHEEL 🎡", text: "Standing before the legendary stone wheel of Konark." },
+  { image: "11275.jpg", title: "GIVING BACK 🩸", text: "Proud moment supporting a noble cause." },
+  { image: "11276.jpg", title: "RELAXING TIME 🌴", text: "Taking a well-deserved break outdoors." },
+  { image: "11277.jpg", title: "POOL SIDE VIBES 🏊‍♂️", text: "Always stylish, calm, and composed." }
 ];
 
-let currentMemoryIndex=0,audioPlayed=false,transitioning=false,countdownTimer=null;
+let currentMemoryIndex = 0, audioPlayed = false, transitioning = false, countdownTimer = null;
 
-function nextScene(n){
-document.querySelectorAll(".scene").forEach(s=>s.classList.remove("active"));
-const sc=document.getElementById("scene-"+n);
-if(sc)sc.classList.add("active");
+function nextScene(n) {
+  document.querySelectorAll(".scene").forEach(s => s.classList.remove("active"));
+  const sc = document.getElementById("scene-" + n);
+  if (sc) sc.classList.add("active");
 }
 
-function startMission(){playAudio();nextScene(2)}
-function playAudio(){
-if(!audioPlayed){
-const a=document.getElementById("bg-audio");
-a.play().then(()=>{audioPlayed=true}).catch(()=>{});
-}}
-function toggleAudio(){
-const a=document.getElementById("bg-audio"),icon=document.getElementById("music-icon"),textEl=document.getElementById("music-text");
-if(a.paused){a.play().then(()=>{icon.innerText="🎵";textEl.innerText="SOUND ON";audioPlayed=true}).catch(()=>alert("Make sure your music file exists in the audio folder!"))}
-else{a.pause();icon.innerText="🔇";textEl.innerText="MUTED"}
+function startMission() {
+  playAudio();
+  nextScene(2);
 }
-function triggerFlightAnimation(){
-const plane=document.getElementById("plane");
-if(plane){plane.style.left="40px";requestAnimationFrame(()=>setTimeout(()=>plane.style.left="calc(100% - 70px)",150))}
+
+function playAudio() {
+  if (!audioPlayed) {
+    const a = document.getElementById("bg-audio");
+    a.play().then(() => { audioPlayed = true; }).catch(() => {});
+  }
 }
-function startMemoryViewer(){
-currentMemoryIndex=0;loadMemory(0);nextScene("memories");
+
+function toggleAudio() {
+  const a = document.getElementById("bg-audio"),
+        icon = document.getElementById("music-icon"),
+        textEl = document.getElementById("music-text");
+  if (a.paused) {
+    a.play().then(() => {
+      icon.innerText = "🎵";
+      textEl.innerText = "SOUND ON";
+      audioPlayed = true;
+    }).catch(() => alert("Make sure your M4A audio file is uploaded to the root of your repository!"));
+  } else {
+    a.pause();
+    icon.innerText = "🔇";
+    textEl.innerText = "MUTED";
+  }
 }
-function loadMemory(index){
-const mem=memories[index],num=String(index+1).padStart(3,"0");
-const img=document.getElementById("memory-img"),frame=document.getElementById("photo-frame");
-document.getElementById("memory-file-num").innerText=`FILE ${num} // MEMORY`;
-document.getElementById("memory-title").innerText=mem.title;
-document.getElementById("memory-text").innerText=mem.text;
-img.style.display="block";frame.querySelector(".photo-placeholder")?.remove();
-img.src=mem.image;
-document.getElementById("memory-btn").innerText=index===memories.length-1?"FINISH MEMORIES":"NEXT MEMORY";
-[frame,document.getElementById("memory-title"),document.getElementById("memory-text")].forEach(e=>{e.classList.remove("fade-in");void e.offsetWidth;e.classList.add("fade-in")});
+
+function triggerFlightAnimation() {
+  const plane = document.getElementById("plane");
+  if (plane) {
+    plane.style.left = "40px";
+    requestAnimationFrame(() => setTimeout(() => plane.style.left = "calc(100% - 70px)", 150));
+  }
 }
-function handleImageError(img){
-img.style.display="none";
-const frame=img.parentElement;
-let p=frame.querySelector(".photo-placeholder");
-if(!p){p=document.createElement("div");p.className="photo-placeholder";frame.appendChild(p)}
-p.innerHTML="📁 MEMORY IMAGE<br><br>IMAGE FILE NOT FOUND<br><br><small>Check the photos folder and filename.</small>";
+
+function startMemoryViewer() {
+  currentMemoryIndex = 0;
+  loadMemory(0);
+  nextScene("memories");
 }
-function nextMemory(){
-if(transitioning)return;
-if(currentMemoryIndex<memories.length-1){currentMemoryIndex++;loadMemory(currentMemoryIndex)}
-else{nextScene(8)}
+
+function loadMemory(index) {
+  const mem = memories[index],
+        num = String(index + 1).padStart(3, "0");
+  const img = document.getElementById("memory-img"),
+        frame = document.getElementById("photo-frame");
+  
+  document.getElementById("memory-file-num").innerText = `FILE ${num} // MEMORY`;
+  document.getElementById("memory-title").innerText = mem.title;
+  document.getElementById("memory-text").innerText = mem.text;
+  
+  img.style.display = "block";
+  frame.querySelector(".photo-placeholder")?.remove();
+  
+  img.src = mem.image;
+
+  document.getElementById("memory-btn").innerText = (index === memories.length - 1) ? "FINISH MEMORIES" : "NEXT MEMORY";
+
+  [frame, document.getElementById("memory-title"), document.getElementById("memory-text")].forEach(e => {
+    e.classList.remove("fade-in");
+    void e.offsetWidth;
+    e.classList.add("fade-in");
+  });
 }
-function answerSecurityQuestion(e){
-if(transitioning)return;transitioning=true;
-e.currentTarget.disabled=true;
-nextScene(9);
-let n=3;
-const num=document.getElementById("countdown-num"),status=document.getElementById("countdown-status"),sub=document.getElementById("countdown-sub");
-num.innerText=n;status.innerText="INITIATING ARRIVAL PROTOCOL";sub.innerText="VERIFYING COORDINATES...";
-countdownTimer=setInterval(()=>{
-n--;
-if(n>0){num.innerText=n;sub.innerText=n===2?"FAMILY CONNECTION CONFIRMED...":"FINAL CHECK..."}
-else{
-clearInterval(countdownTimer);
-num.innerText="❤️";status.innerText="ARRIVAL CONFIRMED";sub.innerText="WELCOME HOME, PAPA.";
-setTimeout(()=>{transitioning=false;nextScene(10)},1800);
-}},1000);
+
+function handleImageError(img) {
+  img.style.display = "none";
+  const frame = img.parentElement;
+  let p = frame.querySelector(".photo-placeholder");
+  if (!p) {
+    p = document.createElement("div");
+    p.className = "photo-placeholder";
+    frame.appendChild(p);
+  }
+  p.innerHTML = "📁 MEMORY IMAGE<br><br>IMAGE FILE NOT FOUND<br><br><small>Check the filename and case sensitivity (.jpg vs .JPG).</small>";
 }
-document.addEventListener("visibilitychange",()=>{if(!document.hidden&&audioPlayed){const a=document.getElementById("bg-audio");if(!a.paused) a.play().catch(()=>{})}});
+
+function nextMemory() {
+  if (transitioning) return;
+  if (currentMemoryIndex < memories.length - 1) {
+    currentMemoryIndex++;
+    loadMemory(currentMemoryIndex);
+  } else {
+    nextScene(8);
+  }
+}
+
+function answerSecurityQuestion(e) {
+  if (transitioning) return;
+  transitioning = true;
+  e.currentTarget.disabled = true;
+  nextScene(9);
+  
+  let n = 3;
+  const num = document.getElementById("countdown-num"),
+        status = document.getElementById("countdown-status"),
+        sub = document.getElementById("countdown-sub");
+        
+  num.innerText = n;
+  status.innerText = "INITIATING ARRIVAL PROTOCOL";
+  sub.innerText = "VERIFYING COORDINATES...";
+  
+  countdownTimer = setInterval(() => {
+    n--;
+    if (n > 0) {
+      num.innerText = n;
+      sub.innerText = (n === 2) ? "FAMILY CONNECTION CONFIRMED..." : "FINAL CHECK...";
+    } else {
+      clearInterval(countdownTimer);
+      num.innerText = "❤️";
+      status.innerText = "ARRIVAL CONFIRMED";
+      sub.innerText = "WELCOME HOME, PAPA.";
+      setTimeout(() => {
+        transitioning = false;
+        nextScene(10);
+      }, 1800);
+    }
+  }, 1000);
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden && audioPlayed) {
+    const a = document.getElementById("bg-audio");
+    if (!a.paused) a.play().catch(() => {});
+  }
+});
 </script>
 </body>
 </html>
